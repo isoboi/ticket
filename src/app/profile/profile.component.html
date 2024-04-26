@@ -20,7 +20,7 @@
       <mat-form-field>
         <mat-label>Город</mat-label>
         <mat-select formControlName="area_id">
-          @for (region of regions;track region) {
+          @for (region of regions | ngrxPush;track region) {
             <mat-option [value]="region.id">
               {{ region.name }}
             </mat-option>

@@ -11,7 +11,6 @@ export const ticketsReducer = createReducer(
   initialState,
   on(getAllTicketsAction, (state) => state),
   on(loadedSuccessTicketsAction, (state, payload) => {
-    state = payload.tickets;
-    return state;
+    return payload.tickets;
   }),
 );

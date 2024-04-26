@@ -1,5 +1,6 @@
 import { DestroyRef, inject, Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
+import { Router } from '@angular/router';
 import { map } from 'rxjs'
 import { StorageService } from "./storage.service";
 import { LoginData } from "../models/auth/login-data";
@@ -18,20 +19,15 @@ export class AuthService {
   storageService = inject(StorageService);
   store = inject(Store);
   destroyRef = inject(DestroyRef);
-
-  user: User
+  router = inject(Router);
 
   constructor() {
-    this.store.select('user')
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(user => {
-      this.user = user;
-    });
   }
 
   isAuthorized() {
-    this.user = this.storageService.getItem(AuthEnum.USER_DATA);
-    return !!this.user;
+    const user = this.storageService.getItem(AuthEnum.USER_DATA);
+    this.store.dispatch(setUserAction({ user: user }, ));
+    return !!user;
   }
 
   login(data: LoginData) {
@@ -39,7 +35,6 @@ export class AuthService {
       .pipe(map(result => {
         this.storageService.setItem(AuthEnum.AUTH_TOKEN, result.access_token);
         this.storageService.setItem(AuthEnum.USER_DATA, result.user);
-        this.store.dispatch(setUserAction({ user: result.user }));
         return result.user;
       }));
   }
@@ -48,5 +43,6 @@ export class AuthService {
     this.storageService.removeItem(AuthEnum.AUTH_TOKEN);
     this.storageService.removeItem(AuthEnum.USER_DATA);
     this.store.dispatch(deleteUserAction());
+    this.router.navigate(['/login'])
   }
 }

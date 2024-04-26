@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NgIf } from "@angular/common";
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from "@angular/material/card";
 import { MatFormField, MatLabel } from "@angular/material/form-field";
@@ -6,10 +6,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { TypedForm } from "../shared/models/common/typed-form";
 import { LoginData } from "../shared/models/auth/login-data";
 import { Router } from "@angular/router";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatInput } from "@angular/material/input";
 import { MatButton } from "@angular/material/button";
-import { of, tap } from "rxjs";
 import { Store } from "@ngrx/store";
 import { loginAction } from "../store/actions/user.action";
 
@@ -34,7 +32,6 @@ import { loginAction } from "../store/actions/user.action";
 export class AuthComponent implements OnInit {
   store = inject(Store);
   router = inject(Router);
-  destroyRef = inject(DestroyRef);
 
   form: FormGroup<TypedForm<LoginData>>
   error: boolean;
@@ -44,28 +41,7 @@ export class AuthComponent implements OnInit {
   }
 
   public login() {
-    this.error = false;
-    this.store.select('user')
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        tap(user => {
-          if (!user) {
-            this.store.dispatch(loginAction({ data: this.form.getRawValue() }));
-            return of([])
-          }
-          return user;
-        })
-      ).subscribe({
-      next: user => {
-        if (user) {
-          this.router.navigate(['/'])
-        }
-      },
-      error: () => {
-        this.form.reset();
-        this.error = true;
-      },
-    });
+    this.store.dispatch(loginAction({ data: this.form.getRawValue() }));
   }
 
   private initForm() {

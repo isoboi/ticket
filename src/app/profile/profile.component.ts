@@ -12,12 +12,12 @@ import {
 import { MatButton } from "@angular/material/button";
 import { Router, RouterLink } from "@angular/router";
 import { MatInput } from "@angular/material/input";
+import { PushPipe } from '@ngrx/component';
 import { Region } from "../shared/models/region/region";
 import { User } from "../shared/models/user/user";
 import { UserForm } from "../shared/models/user/user-form";
-import { of, tap } from "rxjs";
+import { Observable } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import moment from 'moment'
 import { Store } from "@ngrx/store";
 import { getAllRegionsAction } from "../store/actions/region.action";
 import { updateAction } from "../store/actions/user.action";
@@ -43,6 +43,7 @@ import { updateAction } from "../store/actions/user.action";
     MatDatepickerActions,
     MatDatepickerCancel,
     MatDatepickerApply,
+    PushPipe,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
@@ -53,8 +54,7 @@ export class ProfileComponent implements OnInit {
   router = inject(Router);
 
   form: FormGroup<UserForm>;
-  regions: Region[];
-  user: User;
+  regions: Observable<Region[]> = this.store.select('regions');
 
   ngOnInit() {
     this.initForm();
@@ -62,26 +62,13 @@ export class ProfileComponent implements OnInit {
   }
 
   private getData() {
-    this.store.select('regions')
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        tap(regions => {
-          if (!regions?.length) {
-            this.store.dispatch(getAllRegionsAction());
-            return of(null)
-          }
-          return regions;
-        })
-      ).subscribe((regions) => {
-      this.regions = regions;
-    });
+    this.store.dispatch(getAllRegionsAction());
 
     this.store.select('user')
       .pipe(
         takeUntilDestroyed(this.destroyRef),
       ).subscribe(user => {
-      this.user = user;
-      this.form.patchValue(user);
+        this.form.patchValue(user);
     });
   }
 
@@ -98,12 +85,8 @@ export class ProfileComponent implements OnInit {
   submit() {
     this.form.markAllAsTouched();
     if (this.form.invalid) return
-    let data = this.form.getRawValue() as User;
 
-    if (data?.date_of_birth) {
-      data.date_of_birth = moment(data.date_of_birth).format('YYYY-MM-DD')
-    }
-    this.store.dispatch(updateAction({ data }))
+    this.store.dispatch(updateAction({ user: this.form.getRawValue() as User }))
   }
 
 }

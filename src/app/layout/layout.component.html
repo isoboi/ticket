@@ -9,13 +9,13 @@
     }
   </div>
 
-  @if (user) {
+  @if (user | ngrxPush; as u) {
     <button mat-button
             [matMenuTriggerFor]="menu">
-      {{ user.username }}
+      {{ u.username }}
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item [routerLink]="['profile/' + user.id]">Профиль</button>
+      <button mat-menu-item [routerLink]="['profile/' + u.id]">Профиль</button>
       <button mat-menu-item (click)="logout()">Выйти</button>
     </mat-menu>
   }

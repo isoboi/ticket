@@ -7,7 +7,6 @@ export const initialState: Region[] = [];
 export const regionsReducer = createReducer(
   initialState,
   on(loadedSuccessRegionsAction, (state, payload) => {
-    state = payload.regions;
-    return state;
+    return payload.regions;
   }),
 );

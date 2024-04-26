@@ -7,12 +7,7 @@ export const initialState: User = null;
 export const userReducer = createReducer(
   initialState,
   on(setUserAction, (state, payload) => {
-    if (state) {
-      state = Object.assign(JSON.parse(JSON.stringify(state)), payload.user);
-    } else {
-      state = payload.user;
-    }
-    return state;
+    return payload.user;
   }),
   on(deleteUserAction, (state, payload) => {
     state = null;

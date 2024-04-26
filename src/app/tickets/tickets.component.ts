@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   MatCell, MatCellDef,
   MatColumnDef,
@@ -12,13 +12,13 @@ import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatTooltip } from "@angular/material/tooltip";
 import { MatIcon } from "@angular/material/icon";
 import { MatPaginator } from "@angular/material/paginator";
+import { PushPipe } from '@ngrx/component';
 import { TableColumns } from "../shared/models/common/table-columns";
 import { Ticket } from "../shared/models/ticket/ticket";
 import { RouterLink } from "@angular/router";
 import { AsyncPipe, DatePipe } from "@angular/common";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { of, tap } from "rxjs";
 import { getAllTicketsAction } from "../store/actions/ticket.action";
+import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
 
 @Component({
@@ -42,35 +42,19 @@ import { Store } from "@ngrx/store";
     MatRowDef,
     RouterLink,
     DatePipe,
-    AsyncPipe
+    AsyncPipe,
+    PushPipe
   ],
   templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.scss'
 })
 export class TicketsComponent implements OnInit {
-  destroyRef = inject(DestroyRef);
   store = inject(Store<{ tickets: Ticket[] }>);
-
-  tickets: Ticket[];
+  tickets: Observable<Ticket[]> = this.store.select('tickets');
   displayedColumns: TableColumns<Ticket> = ['id', 'title', 'created_at', 'updated_at', 'actions'];
 
   ngOnInit() {
-    this.getData();
+    this.store.dispatch(getAllTicketsAction());
   }
 
-  getData() {
-    this.store.select('tickets')
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        tap(tickets => {
-          if (tickets?.length < 2) {
-            this.store.dispatch(getAllTicketsAction());
-            return of(null)
-          }
-          return tickets;
-        })
-      ).subscribe((tickets) => {
-      this.tickets = tickets;
-    });
-  }
 }

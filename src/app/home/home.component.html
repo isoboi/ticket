@@ -1,7 +1,7 @@
 <app-tickets></app-tickets>
 
 <div class="ticket-info">
-  @for (ticket of tickets;track tickets) {
+  @for (ticket of tickets | ngrxPush;track tickets) {
     <app-ticket [ticket]="ticket"></app-ticket>
   }
 </div>

@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
+import { Path } from './shared/constants';
 import { authGuard } from "./shared/guards/auth.guard";
 
 export const routes: Routes = [
   {
-    path: 'login',
+    path: Path.login,
     loadComponent: () => import('./auth/auth.component').then(x => x.AuthComponent),
   },
   {
@@ -12,29 +13,29 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'home',
+        path: Path.home,
         loadComponent: () => import('./home/home.component').then(x => x.HomeComponent),
-        data: { breadcrumbs: ['home'] }
+        data: { breadcrumbs: [Path.home] }
       },
       {
-        path: 'tickets',
+        path: Path.tickets,
         loadComponent: () => import('./tickets/tickets.component').then(x => x.TicketsComponent),
-        data: { breadcrumbs: ['home', 'tickets'] }
+        data: { breadcrumbs: [Path.home, Path.tickets] }
       },
       {
-        path: 'ticket/:id',
+        path: Path.ticket + '/:id',
         loadComponent: () => import('./tickets/ticket/ticket.component').then(x => x.TicketComponent),
-        data: { breadcrumbs: ['home', 'tickets', 'ticket'] }
+        data: { breadcrumbs: [Path.home, Path.tickets, Path.ticket] }
       },
       {
-        path: 'profile/:id',
+        path: Path.profile + '/:id',
         loadComponent: () => import('./profile/profile.component').then(x => x.ProfileComponent),
-        data: { breadcrumbs: ['home', 'profile'] }
+        data: { breadcrumbs: [Path.home, Path.profile] }
       },
       {
         path: '**',
         pathMatch: 'full',
-        redirectTo: 'home',
+        redirectTo: Path.home,
       },
     ],
   },
