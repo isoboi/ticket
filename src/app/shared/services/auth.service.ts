@@ -30,8 +30,7 @@ export class AuthService {
   }
 
   isAuthorized() {
-    const user = this.storageService.getItem(AuthEnum.USER_DATA);
-    this.store.dispatch(setUserAction({ user }));
+    this.user = this.storageService.getItem(AuthEnum.USER_DATA);
     return !!this.user;
   }
 
