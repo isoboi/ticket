@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+mat-card {
+  width: 400px;
+}
+
+mat-card-header {
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  padding-top: 16px;
+}

@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+mat-toolbar {
+  min-height: 60px;
+}
+
+.layout-container {
+  padding: 16px;
+}
+
+.menu {
+  margin: 0 auto;
+}

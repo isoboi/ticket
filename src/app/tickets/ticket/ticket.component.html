@@ -1,0 +1,12 @@
+<mat-card class="ticket-card">
+    <mat-card-header>
+      <mat-card-subtitle>Тикет #{{ ticket?.id }}</mat-card-subtitle>
+      <mat-card-title>{{ ticket?.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p> Дата создания: {{ ticket?.created_at | date: 'dd.MM.YYYY' }}</p>
+    </mat-card-content>
+  <mat-card-footer>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

@@ -1,0 +1,28 @@
+<mat-toolbar color="primary">
+  <div class="menu">
+    @for (menuItem of menu;track menuItem) {
+      <a mat-button
+         [routerLink]="menuItem.link"
+         routerLinkActive="mat-mdc-unelevated-button">
+        {{ menuItem.title }}
+      </a>
+    }
+  </div>
+
+  @if (user) {
+    <button mat-button
+            [matMenuTriggerFor]="menu">
+      {{ user.username }}
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="['profile/' + user.id]">Профиль</button>
+      <button mat-menu-item (click)="logout()">Выйти</button>
+    </mat-menu>
+  }
+</mat-toolbar>
+
+<app-breadcrumbs></app-breadcrumbs>
+
+<div class="layout-container">
+  <router-outlet />
+</div>

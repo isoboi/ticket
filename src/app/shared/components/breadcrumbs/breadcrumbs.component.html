@@ -1,0 +1,9 @@
+<ul class="breadcrumb">
+  @for (breadcrumb of breadcrumbService?.routeData;track breadcrumb;let last = $last) {
+    @if (last) {
+      <li>{{ breadcrumb.title }}</li>
+    } @else {
+      <li><a [routerLink]="breadcrumb.link">{{ breadcrumb.title }}</a></li>
+    }
+  }
+</ul>
