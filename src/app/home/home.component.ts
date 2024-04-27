@@ -24,7 +24,7 @@ import { Store } from "@ngrx/store";
 export class HomeComponent extends BaseBreadCrumbsComponentComponent{
   store = inject(Store);
   tickets: Observable<Ticket[]> = this.store.select('tickets');
-  constructor(private activeRoute: ActivatedRoute) {
+  constructor(activeRoute: ActivatedRoute) {
     super(activeRoute)
   }
 }

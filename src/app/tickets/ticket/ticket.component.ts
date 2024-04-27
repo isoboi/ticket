@@ -46,7 +46,7 @@ export class TicketComponent extends BaseBreadCrumbsComponentComponent implement
 
   isLoading: boolean;
 
-  constructor(private activeRoute: ActivatedRoute) {
+  constructor(activeRoute: ActivatedRoute) {
     super(activeRoute)
   }
 

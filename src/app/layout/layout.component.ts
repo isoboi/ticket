@@ -1,20 +1,14 @@
-import transformJavaScript from '@angular-devkit/build-angular/src/tools/esbuild/javascript-transformer-worker';
 import { JsonPipe } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject } from '@angular/core';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { BreadcrumbService } from '../shared/services/breadcrumb.service';
 import { AuthService } from "../shared/services/auth.service";
 import {
-  ActivatedRoute, ActivationEnd,
-  NavigationEnd,
   Router,
   RouterLink,
   RouterLinkActive,
   RouterOutlet,
-  RoutesRecognized
 } from "@angular/router";
 import { MatMenu, MatMenuItem, MatMenuTrigger } from "@angular/material/menu";
 import { MatToolbar } from "@angular/material/toolbar";
@@ -44,25 +38,15 @@ import { BreadcrumbsComponent } from "../shared/components/breadcrumbs/breadcrum
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent {
+
   authService = inject(AuthService);
   store = inject(Store);
   user: Observable<User> = this.store.select('user');
   menu: Menu[] = menu;
-
   router = inject(Router);
-  activatedRoute = inject(ActivatedRoute);
-  destroyRef = inject(DestroyRef);
-  breadcrumbService: BreadcrumbService = inject(BreadcrumbService);
+
   constructor() {
-    this.getRouteData();
-  }
-
-  ngOnInit() {
-
-  }
-
-  getRouteData(): void {
   }
 
   logout(): void {

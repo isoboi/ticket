@@ -11,7 +11,7 @@ import { BreadcrumbService } from '../shared/services/breadcrumb.service';
 })
 export class BaseBreadCrumbsComponentComponent {
   breadcrumbService: BreadcrumbService = inject(BreadcrumbService);
-  constructor(private activatedRoute: ActivatedRoute) {
-    this.breadcrumbService.routeData = this.breadcrumbService.renderBreadcrumb(this.activatedRoute.snapshot);
+  constructor(activatedRoute: ActivatedRoute) {
+    this.breadcrumbService.routeData = this.breadcrumbService.renderBreadcrumb(activatedRoute.snapshot);
   }
 }

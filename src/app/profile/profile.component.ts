@@ -59,7 +59,7 @@ export class ProfileComponent extends BaseBreadCrumbsComponentComponent implemen
   form: FormGroup<UserForm>;
   regions: Observable<Region[]> = this.store.select('regions');
 
-  constructor(private activeRoute: ActivatedRoute) {
+  constructor(activeRoute: ActivatedRoute) {
     super(activeRoute)
   }
 

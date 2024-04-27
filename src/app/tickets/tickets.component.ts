@@ -55,7 +55,7 @@ export class TicketsComponent extends BaseBreadCrumbsComponentComponent implemen
   store = inject(Store<{ tickets: Ticket[] }>);
   tickets: Observable<Ticket[]> = this.store.select('tickets');
   displayedColumns: TableColumns<Ticket> = ['id', 'title', 'created_at', 'updated_at', 'actions'];
-  constructor(private activeRoute: ActivatedRoute) {
+  constructor(activeRoute: ActivatedRoute) {
     super(activeRoute)
   }
   ngOnInit() {
