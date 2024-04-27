@@ -9,6 +9,9 @@ import {
 } from "@angular/material/card";
 import { of, tap } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import {
+  BaseBreadCrumbsComponentComponent
+} from '../../base-bread-crumbs-component/base-bread-crumbs-component.component';
 import { Ticket } from "../../shared/models/ticket/ticket";
 import { ActivatedRoute } from "@angular/router";
 import { MatProgressBar } from "@angular/material/progress-bar";
@@ -33,7 +36,7 @@ import { getByIdTicketsAction } from "../../store/actions/ticket.action";
   templateUrl: './ticket.component.html',
   styleUrl: './ticket.component.scss'
 })
-export class TicketComponent implements OnInit {
+export class TicketComponent extends BaseBreadCrumbsComponentComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   route = inject(ActivatedRoute);
   store = inject(Store<{ tickets: Ticket[] }>);
@@ -42,6 +45,10 @@ export class TicketComponent implements OnInit {
   @Input() ticket: Ticket;
 
   isLoading: boolean;
+
+  constructor(private activeRoute: ActivatedRoute) {
+    super(activeRoute)
+  }
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];

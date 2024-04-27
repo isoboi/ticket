@@ -10,9 +10,12 @@ import {
   MatDatepickerToggle
 } from "@angular/material/datepicker";
 import { MatButton } from "@angular/material/button";
-import { Router, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { MatInput } from "@angular/material/input";
 import { PushPipe } from '@ngrx/component';
+import {
+  BaseBreadCrumbsComponentComponent
+} from '../base-bread-crumbs-component/base-bread-crumbs-component.component';
 import { Region } from "../shared/models/region/region";
 import { User } from "../shared/models/user/user";
 import { UserForm } from "../shared/models/user/user-form";
@@ -48,13 +51,17 @@ import { updateAction } from "../store/actions/user.action";
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent extends BaseBreadCrumbsComponentComponent implements OnInit {
   store = inject(Store);
   destroyRef = inject(DestroyRef);
   router = inject(Router);
 
   form: FormGroup<UserForm>;
   regions: Observable<Region[]> = this.store.select('regions');
+
+  constructor(private activeRoute: ActivatedRoute) {
+    super(activeRoute)
+  }
 
   ngOnInit() {
     this.initForm();

@@ -63,12 +63,6 @@ export class LayoutComponent implements OnInit {
   }
 
   getRouteData(): void {
-    this.router.events
-      .subscribe((data) => {
-        if (data instanceof RoutesRecognized) {
-          this.breadcrumbService.routeData = this.breadcrumbService.renderBreadcrumb(data.state.root.firstChild.firstChild)
-        }
-      });
   }
 
   logout(): void {

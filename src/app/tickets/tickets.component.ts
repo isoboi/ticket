@@ -13,9 +13,12 @@ import { MatTooltip } from "@angular/material/tooltip";
 import { MatIcon } from "@angular/material/icon";
 import { MatPaginator } from "@angular/material/paginator";
 import { PushPipe } from '@ngrx/component';
+import {
+  BaseBreadCrumbsComponentComponent
+} from '../base-bread-crumbs-component/base-bread-crumbs-component.component';
 import { TableColumns } from "../shared/models/common/table-columns";
 import { Ticket } from "../shared/models/ticket/ticket";
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { AsyncPipe, DatePipe } from "@angular/common";
 import { getAllTicketsAction } from "../store/actions/ticket.action";
 import { Observable } from "rxjs";
@@ -48,11 +51,13 @@ import { Store } from "@ngrx/store";
   templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.scss'
 })
-export class TicketsComponent implements OnInit {
+export class TicketsComponent extends BaseBreadCrumbsComponentComponent implements OnInit {
   store = inject(Store<{ tickets: Ticket[] }>);
   tickets: Observable<Ticket[]> = this.store.select('tickets');
   displayedColumns: TableColumns<Ticket> = ['id', 'title', 'created_at', 'updated_at', 'actions'];
-
+  constructor(private activeRoute: ActivatedRoute) {
+    super(activeRoute)
+  }
   ngOnInit() {
     this.store.dispatch(getAllTicketsAction());
   }
