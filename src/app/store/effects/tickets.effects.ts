@@ -4,7 +4,7 @@ import { EMPTY } from 'rxjs';
 import { map, exhaustMap, catchError } from 'rxjs/operators';
 import {
   getAllTicketsAction,
-  getByIdTicketsAction,
+  getTicketsByIdAction,
   TicketsActionType
 } from "../actions/ticket.action";
 import { TicketService } from "../../shared/services/ticket.service";
@@ -27,7 +27,7 @@ export class TicketsEffects {
 
   loadTicket$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getByIdTicketsAction),
+      ofType(getTicketsByIdAction),
       exhaustMap((payload) => this.ticketService.get(payload.id)
         .pipe(
           map(tickets => ({ type: TicketsActionType.loadedSuccess, tickets: [tickets] })),

@@ -6,9 +6,7 @@ import { StorageService } from "./storage.service";
 import { LoginData } from "../models/auth/login-data";
 import { LoginResult } from "../models/auth/login-result";
 import { AuthEnum } from "../enums/auth.enum";
-import { User } from "../models/user/user";
 import { Store } from "@ngrx/store";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { deleteUserAction, setUserAction } from "../../store/actions/user.action";
 
 @Injectable({

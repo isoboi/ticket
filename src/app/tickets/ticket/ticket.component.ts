@@ -7,7 +7,6 @@ import {
   MatCardSubtitle,
   MatCardTitle
 } from "@angular/material/card";
-import { of, tap } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
   BaseBreadCrumbsComponentComponent
@@ -17,7 +16,7 @@ import { ActivatedRoute } from "@angular/router";
 import { MatProgressBar } from "@angular/material/progress-bar";
 import { DatePipe, NgIf } from "@angular/common";
 import { Store } from "@ngrx/store";
-import { getByIdTicketsAction } from "../../store/actions/ticket.action";
+import { getTicketsByIdAction } from "../../store/actions/ticket.action";
 
 @Component({
   selector: 'app-ticket',
@@ -52,6 +51,10 @@ export class TicketComponent extends BaseBreadCrumbsComponentComponent implement
 
   ngOnInit() {
     this.id = +this.route.snapshot.params['id'];
+
+    if (this.id) {
+      this.store.dispatch(getTicketsByIdAction({ id: this.id }));
+    }
     if (!this.ticket && this.id) {
       this.checkData();
     }
@@ -59,17 +62,9 @@ export class TicketComponent extends BaseBreadCrumbsComponentComponent implement
 
   checkData() {
     this.store.select('tickets')
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        tap(tickets => {
-          if (!tickets?.length) {
-            this.store.dispatch(getByIdTicketsAction({ id: this.id }));
-            return of([])
-          }
-          return tickets;
-        })
-      ).subscribe((tickets: Ticket[]) => {
-      this.ticket = tickets.find(x => x.id === this.id);
-    });
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((tickets: Ticket[]) => {
+        this.ticket = tickets.find(x => x.id === this.id);
+      });
   }
 }

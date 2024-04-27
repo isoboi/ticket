@@ -8,12 +8,12 @@ export enum TicketsActionType {
 }
 
 export const getAllTicketsAction = createAction(TicketsActionType.getAll);
-export const loadedSuccessTicketsAction = createAction(
+export const getAllTicketsActionSuccess = createAction(
   TicketsActionType.loadedSuccess,
   props<{ tickets: Ticket[] }>()
 );
 
-export const getByIdTicketsAction = createAction(
+export const getTicketsByIdAction = createAction(
   TicketsActionType.getById,
   props<{ id: number }>()
 );

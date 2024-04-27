@@ -52,7 +52,7 @@ import { Store } from "@ngrx/store";
   styleUrl: './tickets.component.scss'
 })
 export class TicketsComponent extends BaseBreadCrumbsComponentComponent implements OnInit {
-  store = inject(Store<{ tickets: Ticket[] }>);
+  store = inject(Store);
   tickets: Observable<Ticket[]> = this.store.select('tickets');
   displayedColumns: TableColumns<Ticket> = ['id', 'title', 'created_at', 'updated_at', 'actions'];
   constructor(activeRoute: ActivatedRoute) {

@@ -55,7 +55,6 @@ export class ProfileComponent extends BaseBreadCrumbsComponentComponent implemen
   store = inject(Store);
   destroyRef = inject(DestroyRef);
   router = inject(Router);
-
   form: FormGroup<UserForm>;
   regions: Observable<Region[]> = this.store.select('regions');
 
@@ -63,23 +62,22 @@ export class ProfileComponent extends BaseBreadCrumbsComponentComponent implemen
     super(activeRoute)
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.initForm();
     this.getData();
   }
 
-  private getData() {
+  private getData(): void {
     this.store.dispatch(getAllRegionsAction());
 
     this.store.select('user')
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-      ).subscribe(user => {
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(user => {
         this.form.patchValue(user);
-    });
+      });
   }
 
-  initForm() {
+  initForm(): void {
     this.form = new FormGroup<UserForm>({
       first_name: new FormControl(null, Validators.required),
       last_name: new FormControl(null, Validators.required),
@@ -89,7 +87,7 @@ export class ProfileComponent extends BaseBreadCrumbsComponentComponent implemen
     })
   }
 
-  submit() {
+  submit(): void {
     this.form.markAllAsTouched();
     if (this.form.invalid) return
 

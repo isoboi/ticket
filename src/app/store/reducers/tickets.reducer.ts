@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { Ticket } from "../../shared/models/ticket/ticket";
 import {
   getAllTicketsAction,
-  loadedSuccessTicketsAction
+  getAllTicketsActionSuccess
 } from "../actions/ticket.action";
 
 export const initialState: Ticket[] = [];
@@ -10,7 +10,7 @@ export const initialState: Ticket[] = [];
 export const ticketsReducer = createReducer(
   initialState,
   on(getAllTicketsAction, (state) => state),
-  on(loadedSuccessTicketsAction, (state, payload) => {
+  on(getAllTicketsActionSuccess, (state, payload) => {
     return [...payload.tickets];
   }),
 );

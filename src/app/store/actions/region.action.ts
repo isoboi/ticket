@@ -10,7 +10,7 @@ export enum RegionsActionType {
 
 export const getAllRegionsAction = createAction(RegionsActionType.getAll);
 
-export const loadedSuccessRegionsAction = createAction(
+export const getAllRegionsActionSuccess = createAction(
   RegionsActionType.loadedSuccess,
   props<{ regions: Region[] }>()
 );
