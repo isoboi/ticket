@@ -58,7 +58,7 @@ export class TicketsComponent extends BaseBreadCrumbsComponentComponent implemen
   constructor(activeRoute: ActivatedRoute) {
     super(activeRoute)
   }
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(getAllTicketsAction());
   }
 

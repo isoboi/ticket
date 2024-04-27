@@ -38,7 +38,7 @@ import { getTicketsByIdAction } from "../../store/actions/ticket.action";
 export class TicketComponent extends BaseBreadCrumbsComponentComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   route = inject(ActivatedRoute);
-  store = inject(Store<{ tickets: Ticket[] }>);
+  store = inject(Store);
   id: number;
 
   @Input() ticket: Ticket;
@@ -49,7 +49,7 @@ export class TicketComponent extends BaseBreadCrumbsComponentComponent implement
     super(activeRoute)
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.id = +this.route.snapshot.params['id'];
 
     if (this.id) {
@@ -60,7 +60,7 @@ export class TicketComponent extends BaseBreadCrumbsComponentComponent implement
     }
   }
 
-  checkData() {
+  checkData(): void {
     this.store.select('tickets')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((tickets: Ticket[]) => {
