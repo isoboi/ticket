@@ -13,7 +13,7 @@ import { provideEffects } from "@ngrx/effects";
 import { TicketsEffects } from "./store/effects/tickets.effects";
 import { UserEffects } from "./store/effects/user.effects";
 import { RegionsEffects } from "./store/effects/regions.effects";
-
+import { provideStoreDevtools } from "@ngrx/store-devtools";
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
@@ -31,6 +31,7 @@ export const appConfig: ApplicationConfig = {
       regions: regionsReducer,
       user: userReducer
     }),
-    provideEffects(TicketsEffects, UserEffects, RegionsEffects),
+    provideEffects([TicketsEffects, UserEffects, RegionsEffects]),
+    provideStoreDevtools({ maxAge: 25, logOnly: false }),
   ]
 };
